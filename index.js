@@ -12,18 +12,18 @@ const client = new NatAPI({
 
 const commands = [
   {
-    name: 'close',
-    description: `close ports in UPnP, use (${prefix}close port)`,
+    name: 'unmapped',
+    description: `unmapped ports in UPnP, use (${prefix}unmapped port)`,
     run: function (port) {
       client.unmap(port, function (err) {
-        if(!err) console.log('\x1b[34m%s\x1b[0m',`Port ${port} closed with success!!`)
+        if(!err) console.log('\x1b[34m%s\x1b[0m',`Port ${port} unmapped with success!!`)
         runCli()
       })
     }
   },
   {
-    name: 'open',
-    description: `open ports in UPnP, use (${prefix}open port)`,
+    name: 'mapped',
+    description: `mapped ports in UPnP, use (${prefix}mapped port)`,
     run: function (port) {
       client.map({ publicPort: port, privatePort: port }, function (err) {
         if (err) return console.log('Error', err)
@@ -37,14 +37,14 @@ const commands = [
 async function runCli() { 
   await new Promise(resolve => setTimeout(resolve, 100))
   const user = 'root@UPnP:~$'
-  readline.question(`\x1b[1m${user}\x1b[0m `, (cmd) => {
+  readline.question(`\x1b[32m${user}\x1b[0m `, (cmd) => {
     if (cmd.startsWith(prefix)) {
       if (cmd.split(prefix)[1] === 'help') {
         commands.forEach(element => {
-          console.log('\x1b[31m%s\x1b[0m','------------------------------------')
-          console.log('\x1b[31m%s\x1b[0m','command: ',`${prefix}${element.name}`)
-          console.log('\x1b[31m%s\x1b[0m','description: ', element.description)
-          console.log('\x1b[31m%s\x1b[0m','------------------------------------')
+          console.log('\x1b[36m%s\x1b[0m','--------------------------------------')
+          console.log('\x1b[36m%s\x1b[0m','command:',`${prefix}${element.name}`)
+          console.log('\x1b[36m%s\x1b[0m','description:', element.description)
+          console.log('\x1b[36m%s\x1b[0m','--------------------------------------')
         });
         return runCli()
       }
@@ -62,7 +62,7 @@ async function runCli() {
         runCli()
       } 
     } else {
-      console.log('\x1b[36m%s\x1b[0m',`prefix is ${prefix}`)
+      console.log('\x1b[34m%s\x1b[0m',`prefix is ${prefix}`)
       runCli()
     }
   })
