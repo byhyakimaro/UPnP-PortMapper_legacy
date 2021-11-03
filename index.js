@@ -15,7 +15,7 @@ const commands = [
     name: 'close',
     run: function (port) {
       client.unmap(port, function (err) {
-        if(!err) console.log(`Port ${port} closed with success!!`)
+        if(!err) console.log('\x1b[34m%s\x1b[0m',`Port ${port} closed with success!!`)
         runCli()
       })
     }
@@ -25,7 +25,7 @@ const commands = [
     run: function (port) {
       client.map({ publicPort: port, privatePort: port }, function (err) {
         if (err) return console.log('Error', err)
-        console.log(`Port ${port} mapped with success!!`)
+        console.log('\x1b[34m%s\x1b[0m',`Port ${port} mapped with success!!`)
         runCli()
       })
     }
@@ -34,24 +34,24 @@ const commands = [
 
 async function runCli() { 
   await new Promise(resolve => setTimeout(resolve, 100))
-  
-  readline.question("root@UPnP:~$ ", (cmd) => {
+  const user = 'root@UPnP:~$'
+  readline.question(`\x1b[1m${user}\x1b[0m `, (cmd) => {
     if (cmd.startsWith(prefix)) {
       const cli = commands.find(({ name }) => name === cmd.split(' ')[0].split('!')[1].toLowerCase())
       const port = cmd.split(' ')[1]
       if(cli && port) {
         cli.run(parseInt(port))
       } 
-      else if (!port) {
-        console.log('No port specified')
+      else if (!cli) {
+        console.log('\x1b[31m%s\x1b[0m','command invalid')
         runCli()
       }
-      else {
-        console.log('command invalid')
+      else if (!port) {
+        console.log('\x1b[31m%s\x1b[0m','No port specified')
         runCli()
       } 
     } else {
-      console.log(`prefix is ${prefix}`)
+      console.log('\x1b[36m%s\x1b[0m',`prefix is ${prefix}`)
       runCli()
     }
   })
