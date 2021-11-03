@@ -4,7 +4,6 @@ const client = new NatAPI({
   autoUpdate: true,
   enablePMP: true
 })
-
 const port = 3000
 
 client.unmap(port, function (err) {
