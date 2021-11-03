@@ -13,6 +13,7 @@ const client = new NatAPI({
 const commands = [
   {
     name: 'close',
+    description: `close ports in UPnP, use (${prefix}close port)`,
     run: function (port) {
       client.unmap(port, function (err) {
         if(!err) console.log('\x1b[34m%s\x1b[0m',`Port ${port} closed with success!!`)
@@ -22,6 +23,7 @@ const commands = [
   },
   {
     name: 'open',
+    description: `open ports in UPnP, use (${prefix}open port)`,
     run: function (port) {
       client.map({ publicPort: port, privatePort: port }, function (err) {
         if (err) return console.log('Error', err)
@@ -37,7 +39,16 @@ async function runCli() {
   const user = 'root@UPnP:~$'
   readline.question(`\x1b[1m${user}\x1b[0m `, (cmd) => {
     if (cmd.startsWith(prefix)) {
-      const cli = commands.find(({ name }) => name === cmd.split(' ')[0].split('!')[1].toLowerCase())
+      if (cmd.split(prefix)[1] === 'help') {
+        commands.forEach(element => {
+          console.log('\x1b[31m%s\x1b[0m','------------------------------------')
+          console.log('\x1b[31m%s\x1b[0m','command: ',`${prefix}${element.name}`)
+          console.log('\x1b[31m%s\x1b[0m','description: ', element.description)
+          console.log('\x1b[31m%s\x1b[0m','------------------------------------')
+        });
+        return runCli()
+      }
+      const cli = commands.find(({ name }) => name === cmd.split(' ')[0].split(prefix)[1].toLowerCase())
       const port = cmd.split(' ')[1]
       if(cli && port) {
         cli.run(parseInt(port))
