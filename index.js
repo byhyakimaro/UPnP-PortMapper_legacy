@@ -13,7 +13,7 @@ const client = new NatAPI({
 const commands = [
   {
     name: 'unmapped',
-    description: `unmapped ports in UPnP, use (${prefix}unmapped port)`,
+    description: `unmapped ports with UPnP, use (${prefix}unmapped 3000)`,
     run: function (port) {
       client.unmap(port, function (err) {
         if(!err) console.log('\x1b[34m%s\x1b[0m',`Port ${port} unmapped with success!!`)
@@ -23,7 +23,7 @@ const commands = [
   },
   {
     name: 'mapped',
-    description: `mapped ports in UPnP, use (${prefix}mapped port)`,
+    description: `mapped ports with UPnP, use (${prefix}mapped 3000)`,
     run: function (port) {
       client.map({ publicPort: port, privatePort: port }, function (err) {
         if (err) return console.log('Error', err)
@@ -50,19 +50,19 @@ async function runCli() {
       }
       const cli = commands.find(({ name }) => name === cmd.split(' ')[0].split(prefix)[1].toLowerCase())
       const port = cmd.split(' ')[1]
-      if(cli && port) {
+      if(cli && !isNaN(port) && port <= 65000 && port >= 0) {
         cli.run(parseInt(port))
       } 
       else if (!cli) {
         console.log('\x1b[31m%s\x1b[0m','command invalid')
         runCli()
       }
-      else if (!port) {
+      else {
         console.log('\x1b[31m%s\x1b[0m','No port specified')
         runCli()
       } 
     } else {
-      console.log('\x1b[34m%s\x1b[0m',`prefix is ${prefix}`)
+      console.log('\x1b[33m%s\x1b[0m',`prefix is ${prefix}`)
       runCli()
     }
   })
