@@ -4,11 +4,10 @@ const client = new NatAPI({
   autoUpdate: true,
   enablePMP: true
 })
-const port = 3000
+const port = 4444
 
 client.unmap(port, function (err) {
-  if (err) return console.log('Error', err)
-  console.log('Port unmapped!') 
+  if(!err) console.log('Port unmapped!') 
 })
 
 client.map({ publicPort: port, privatePort: port }, function (err) {
