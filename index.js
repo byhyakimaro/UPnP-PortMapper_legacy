@@ -36,8 +36,19 @@ const commands = [
 
 async function runCli() { 
   await new Promise(resolve => setTimeout(resolve, 100))
+  const banner = `
+  █████  █████ ███████████             ███████████ 
+  ░░███  ░░███ ░░███░░░░░███           ░░███░░░░░███
+   ░███   ░███  ░███    ░███ ████████   ░███    ░███
+   ░███   ░███  ░██████████ ░░███░░███  ░██████████ 
+   ░███   ░███  ░███░░░░░░   ░███ ░███  ░███░░░░░░  
+   ░███   ░███  ░███         ░███ ░███  ░███        
+   ░░████████   █████        ████ █████ █████       
+    ░░░░░░░░   ░░░░░        ░░░░ ░░░░░ ░░░░░        
+                                                        
+  `
   const user = 'root@UPnP:~$'
-  readline.question(`\x1b[32m${user}\x1b[0m `, (cmd) => {
+  readline.question(`${banner}\n\x1b[32m${user}\x1b[0m `, (cmd) => {
     if (cmd.startsWith(prefix)) {
       if (cmd.split(prefix)[1] === 'help') {
         commands.forEach(element => {
