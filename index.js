@@ -7,9 +7,12 @@ const client = new NatAPI({
 
 const port = 3000
 
-client.map({ publicPort: port, privatePort: port }, function (err) {
+client.unmap(port, function (err) {
   if (err) return console.log('Error', err)
-  console.log(`${port} mapped with success!!`)
+  console.log('Port unmapped!') 
 })
 
-client.destroy()
+client.map({ publicPort: port, privatePort: port }, function (err) {
+  if (err) return console.log('Error', err)
+  console.log(`Port ${port} mapped with success!!`)
+})
