@@ -26,8 +26,11 @@ const commands = [
     description: `mapped ports with UPnP, use (${prefix}mapped 3000)`,
     run: function (port) {
       client.map({ publicPort: port, privatePort: port }, function (err) {
-        if (err) return console.log('Error', err)
-        console.log('\x1b[34m%s\x1b[0m',`Port ${port} mapped with success!!`)
+        if (err) {
+          console.log('\x1b[31m%s\x1b[0m',`Port ${port} already mapped or unavailable!!`)
+        } else {
+          console.log('\x1b[34m%s\x1b[0m',`Port ${port} mapped with success!!`)
+        }
         runCli()
       })
     }
