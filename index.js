@@ -60,7 +60,7 @@ async function runCli() {
         cli.run(parseInt(portLocal), parseInt(portRemote), method)
       } 
       else if (!cli) {
-        console.log('\x1b[31m%s\x1b[0m','command invalid')
+        console.log('\x1b[31m%s\x1b[0m',`command invalid use ${prefix}help to see commands`)
         runCli()
       }
       else {
