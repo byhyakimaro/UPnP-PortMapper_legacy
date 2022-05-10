@@ -15,7 +15,7 @@ const commands = [
     name: 'unmapped',
     description: `unmapped ports with UPnP, use (${prefix}unmapped <privatePort> <publicPort> <Protocol>)`,
     run: function (portLocal, portRemote, method) {
-      client.unmap({ publicPort: portRemote, privatePort: portLocal, protocol: method}, function (err) {
+      client.unmap({ privatePort: portLocal, publicPort: portRemote, protocol: method}, function (err) {
         if(!err) console.log('\x1b[34m%s\x1b[0m',`Port ${portLocal} unmapped with success!!`)
         runCli()
       })
@@ -25,7 +25,7 @@ const commands = [
     name: 'mapped',
     description: `mapped ports with UPnP, use (${prefix}mapped <privatePort> <publicPort> <Protocol>)`,
     run: function (portLocal, portRemote, method) {
-      client.map({ publicPort: portRemote, privatePort: portLocal, protocol: method}, function (err) {
+      client.map({ privatePort: portLocal, publicPort: portRemote, protocol: method}, function (err) {
         if (err) {
           console.log('\x1b[31m%s\x1b[0m',`Port ${portLocal} already mapped or unavailable!!`)
         } else {
@@ -55,6 +55,7 @@ async function runCli() {
       const portLocal = cmd.split(' ')[1]
       const portRemote = cmd.split(' ')[2] || portLocal
       const method = cmd.split(' ')[3] || null
+      console.log(portLocal, portRemote, method)
       if(cli && !isNaN(portLocal) && portLocal <= 65000 && portLocal >= 0) {
         cli.run(parseInt(portLocal), parseInt(portRemote), method)
       } 
