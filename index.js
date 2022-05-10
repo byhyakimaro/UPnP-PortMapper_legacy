@@ -6,7 +6,6 @@ const readline = require("readline").createInterface({
 const prefix = '!'
 
 const client = new NatAPI({
-  autoUpdate: true,
   enablePMP: true
 })
 
