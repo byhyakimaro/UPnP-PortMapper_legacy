@@ -33,6 +33,20 @@ const commands = [
         runCli()
       })
     }
+  },
+  {
+    name: 'exit',
+    description: `Destroy the client. Unmaps all the ports open, use (${prefix}exit)`,
+    run: function () {
+      client.destroy(function (err) {
+        if (err) {
+          console.log('\x1b[31m%s\x1b[0m',`Error destroying client!!`)
+        } else {
+          console.log('\x1b[34m%s\x1b[0m',`Client destroyed!!`)
+        }
+        readline.close()
+      })
+    }
   }
 ]
 
@@ -54,16 +68,20 @@ async function runCli() {
       const portLocal = cmd.split(' ')[1]
       const portRemote = cmd.split(' ')[2] || portLocal
       const method = cmd.split(' ')[3] || null
-      console.log(portLocal, portRemote, method)
-      if(cli && !isNaN(portLocal) && portLocal <= 65000 && portLocal >= 0) {
-        cli.run(parseInt(portLocal), parseInt(portRemote), method)
+      if(cli) {
+        if (!cli.name.includes('mapped')) { 
+          cli.run()
+        } else {
+          if (!isNaN(portLocal) && portLocal <= 65000 && portLocal >= 0) {
+            cli.run(parseInt(portLocal), parseInt(portRemote), method)
+          } else {
+            console.log('\x1b[31m%s\x1b[0m','No port specified')
+            runCli()
+          }
+        }
       } 
-      else if (!cli) {
-        console.log('\x1b[31m%s\x1b[0m',`command invalid use ${prefix}help to see commands`)
-        runCli()
-      }
       else {
-        console.log('\x1b[31m%s\x1b[0m','No port specified')
+        console.log('\x1b[31m%s\x1b[0m',`command invalid use ${prefix}help to see commands`)
         runCli()
       } 
     } else {
