@@ -67,7 +67,7 @@ async function runCli() {
         runCli()
       } 
     } else {
-      console.log('\x1b[33m%s\x1b[0m',`prefix is ${prefix}`)
+      console.log('\x1b[33m%s\x1b[0m',`use ${prefix}help`)
       runCli()
     }
   })
